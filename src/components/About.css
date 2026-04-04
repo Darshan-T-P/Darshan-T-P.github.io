@@ -1,0 +1,139 @@
+.about-module {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-display);
+}
+
+.module-header {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.module-title-bar {
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+.about-left, .about-right {
+  padding: 30px;
+}
+
+.about-left {
+  border-right: 1px solid var(--glass-border);
+}
+
+.panel-heading {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.highlight-text {
+  font-family: var(--font-body);
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.highlight-neon {
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 0 0 8px var(--theme-blue-glow);
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+.terminal-panel {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.term-output {
+  margin-top: 16px;
+  padding-left: 16px;
+  border-left: 2px solid rgba(0, 229, 255, 0.2);
+}
+
+.term-output pre {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--theme-blue-light);
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 24px;
+  background: rgba(0, 229, 255, 0.02);
+  border-top: 1px solid var(--glass-border);
+}
+
+.metric-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 229, 255, 0.1);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.metric-card.hover-glow:hover {
+  transform: translateY(-2px);
+  border-color: var(--theme-blue);
+  box-shadow: 0 5px 15px var(--theme-blue-glow);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+.metric-bracket {
+  color: var(--text-muted);
+}
+
+.metric-label {
+  color: var(--terminal-pink);
+  font-weight: 600;
+}
+
+.metric-value {
+  color: #fff;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-left {
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+  }
+}
+
+@media (max-width: 600px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
