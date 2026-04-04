@@ -1,12 +1,12 @@
 import React from 'react';
-import { ShieldCheck, Award } from 'lucide-react';
+import { ShieldCheck, Award, Trophy, Verified } from 'lucide-react';
 import './Achievements.css';
 
 const Achievements = () => {
   const topStats = [
-    { label: "HACKATHONS_WON", value: "2+" },
-    { label: "RANK", value: "6" },
-    { label: "PROJECTS_DEPLOYED", value: "4+" }
+    { label: "Hackathons Won", value: "2+" },
+    { label: "Global Rank", value: "6" },
+    { label: "Projects Deployed", value: "4+" }
   ];
 
   const logEntries = [
@@ -39,59 +39,59 @@ const Achievements = () => {
 
   return (
     <section id="achievements" className="section-container">
-      <h2 className="section-title">./achievements --log</h2>
+      <h2 className="section-title">Milestones & Certifications</h2>
       
       {/* Top Counters */}
-      <div className="achievements-stats">
+      <div className="achievements-stats-modern">
         {topStats.map((stat, idx) => (
-          <div key={idx} className="stat-counter">
-            <span className="bracket">[</span>
-            <span className="stat-key">{stat.label}:</span>
-            <span className="stat-val">{stat.value}</span>
-            <span className="bracket">]</span>
+          <div key={idx} className="stat-counter-modern glass-card">
+            <span className="stat-val-modern">{stat.value}</span>
+            <span className="stat-key-modern">{stat.label}</span>
           </div>
         ))}
       </div>
 
-      <div className="achievements-container module-glass-card glass-card">
-        {/* System Logs */}
-        <div className="system-logs-section">
-          <h3 className="sub-module-title">// System Events log</h3>
-          <div className="logs-grid">
+      <div className="achievements-container-modern glass-card">
+        {/* Milestones */}
+        <div className="milestones-modern-section">
+          <div className="section-heading-modern">
+            <Trophy size={24} className="text-theme-blue" />
+            <h3>Key Achievements</h3>
+          </div>
+          <div className="milestone-timeline">
             {logEntries.map((log, idx) => (
-              <div key={idx} className="log-entry hover-lift">
-                <div className="log-header">
-                  <span className="log-prompt">&gt;</span>
-                  <span className="log-year">[{log.year}]</span>
-                  <span className="log-event">{log.event}</span>
-                  <span className="log-arrow">&rarr;</span>
-                  <span className="log-outcome">{log.outcome}</span>
+              <div key={idx} className="milestone-card hover-lift">
+                <div className="milestone-header">
+                   <div className="milestone-badge">{log.year}</div>
+                   <h4 className="milestone-event">{log.event}</h4>
+                   <span className="milestone-outcome">{log.outcome}</span>
                 </div>
-                <div className="log-body">
-                  {log.desc}
-                </div>
+                <p className="milestone-desc">{log.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="divider"></div>
+        <div className="divider-modern"></div>
 
         {/* Certificates */}
-        <div className="certificates-section">
-          <h3 className="sub-module-title">// Verified Modules</h3>
-          <div className="certs-grid">
+        <div className="certificates-modern-section">
+          <div className="section-heading-modern">
+            <Verified size={24} className="text-theme-blue" />
+            <h3>Verified Modules</h3>
+          </div>
+          <div className="certs-grid-modern">
             {certificates.map((cert, idx) => (
-              <div key={idx} className="cert-card hover-glow">
-                <div className="cert-icon">
-                  <ShieldCheck size={24} />
+              <div key={idx} className="cert-card-modern hover-glow">
+                <div className="cert-icon-modern">
+                  <ShieldCheck size={28} />
                 </div>
-                <div className="cert-info">
-                  <h4 className="cert-title">{cert.title}</h4>
-                  <span className="cert-issuer">Issuer: {cert.issuer}</span>
+                <div className="cert-info-modern">
+                  <h4 className="cert-title-modern">{cert.title}</h4>
+                  <span className="cert-issuer-modern">{cert.issuer}</span>
                 </div>
-                <a href={cert.link} className="btn-glow cert-btn">
-                  [VERIFY_CREDENTIAL]
+                <a href={cert.link} className="btn-glow glass-btn cert-modern-btn">
+                  Verify
                 </a>
               </div>
             ))}

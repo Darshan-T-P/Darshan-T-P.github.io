@@ -1,66 +1,48 @@
 import React, { useState } from 'react';
-import { ExternalLink, Code2, FolderGit2, X, Terminal as TerminalIcon } from 'lucide-react';
+import { ExternalLink, Code2, FolderGit2, X, ArrowRight } from 'lucide-react';
 import './Projects.css';
 
-const ProjectTerminalModal = ({ project, onClose }) => {
+const ProjectModernModal = ({ project, onClose }) => {
   if (!project) return null;
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="project-modal terminal-window animate-scale-up" onClick={(e) => e.stopPropagation()}>
-        <div className="terminal-header">
-          <div className="terminal-buttons">
-            <span className="dot red" onClick={onClose}></span>
-            <span className="dot yellow"></span>
-            <span className="dot green"></span>
-          </div>
-          <div className="terminal-title">project_details --id {project.title.toLowerCase().replace(/\s+/g, '_')}</div>
-          <button className="modal-close-btn" onClick={onClose}><X size={18} /></button>
+    <div className="modal-backdrop-modern" onClick={onClose}>
+      <div className="project-modal-modern glass-card animate-scale-up" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header-modern">
+          <h2 className="modal-title-modern">{project.title}</h2>
+          <button className="modal-close-btn-modern" onClick={onClose}><X size={20} /></button>
         </div>
         
-        <div className="terminal-body custom-scrollbar">
-          <div className="modal-header-section">
-            <h2 className="modal-title">&gt; {project.title}</h2>
-            <div className="modal-links">
-              <a href={project.github} target="_blank" rel="noreferrer" className="modal-link-btn">
-                <Code2 size={18} /> [SOURCE_CODE]
-              </a>
-              <a href={project.demo} target="_blank" rel="noreferrer" className="modal-link-btn">
-                <ExternalLink size={18} /> [LIVE_DEMO]
-              </a>
-            </div>
+        <div className="modal-body-modern custom-scrollbar">
+          <div className="modal-tech-stack-modern">
+            {project.tags.map((tag, i) => (
+              <span key={i} className="tech-badge">{tag}</span>
+            ))}
           </div>
 
-          <div className="modal-description">
-            <p className="term-text-muted">// Description</p>
-            <p className="main-desc">{project.description}</p>
+          <div className="modal-description-modern">
+            <p>{project.description}</p>
           </div>
 
-          <div className="modal-logs">
-            <p className="term-text-muted">// System Build Logs</p>
-            <div className="log-entries">
+          <div className="modal-features-modern">
+            <h4 className="modal-subtitle-modern">Key Highlights</h4>
+            <ul className="modal-list-modern">
               {project.logs.map((log, i) => (
-                <div key={i} className="log-line">
-                  <span className="log-timestamp">[{new Date().toLocaleTimeString()}]</span>
-                  <span className={`log-type ${log.type}`}>{log.type.toUpperCase()}:</span>
-                  <span className="log-msg">{log.msg}</span>
-                </div>
+                <li key={i} className="modal-list-item-modern">
+                   <ArrowRight size={16} className="text-theme-blue" />
+                   <span>{log.msg}</span>
+                </li>
               ))}
-              <div className="log-line">
-                <span className="log-timestamp">[{new Date().toLocaleTimeString()}]</span>
-                <span className="log-type success">SUCCESS:</span>
-                <span className="log-msg">Module deployed to production node.</span>
-              </div>
-            </div>
+            </ul>
           </div>
 
-          <div className="modal-tech-stack">
-            <p className="term-text-muted">// Tech Stack</p>
-            <div className="tech-tags">
-              {project.tags.map((tag, i) => (
-                <span key={i} className="tech-tag">{tag}</span>
-              ))}
-            </div>
+          <div className="modal-actions-modern">
+             <a href={project.github} target="_blank" rel="noreferrer" className="btn-glow glass-btn">
+                <Code2 size={18} /> View Source
+             </a>
+             <a href={project.demo} target="_blank" rel="noreferrer" className="btn-glow">
+                <ExternalLink size={18} /> Live Demo
+             </a>
           </div>
         </div>
       </div>
@@ -73,117 +55,115 @@ const Projects = () => {
 
   const projectData = [
     {
-      title: "AI Traffic Regualtion",
+      title: "AI Traffic Regulation",
       description: "Implemented a YOLO and OpenCV based computer vision engine simulating density analysis to route vehicles dynamically, integrated with basic Reinforcement Learning protocols.",
-      tags: ["[AI]", "[CV]", "[PYTHON]", "[YOLO]", "[PYTORCH]"],
+      tags: ["AI", "Computer Vision", "Python", "YOLOv8", "PyTorch"],
       github: "#",
       demo: "#",
       logs: [
-        { type: "info", msg: "Initializing YOLOv8 neural engine..." },
-        { type: "load", msg: "Loading pre-trained weights: coco.weights" },
-        { type: "exec", msg: "Processing video stream at 30 FPS" },
-        { type: "sync", msg: "Mapping flow distribution to reinforcement agent" }
+        { msg: "Initialized YOLOv8 neural engine for real-time tracking" },
+        { msg: "Loaded pre-trained weights for accurate object detection" },
+        { msg: "Processed video streams reliably at 30 FPS" },
+        { msg: "Mapped flow distribution to a reinforcement learning agent" }
       ]
     },
     {
       title: "Crowd Flow Estimator",
       description: "Constructed an automated mass estimation pipeline designed to count individuals in densely packed video feeds using custom convolutional neural networks.",
-      tags: ["[DEEP_LEARNING]", "[CNN]", "[PYTHON]", "[OPENCV]"],
+      tags: ["Deep Learning", "CNN", "Python", "OpenCV"],
       github: "#",
       demo: "#",
       logs: [
-        { type: "info", msg: "Bootstrapping CNN architecture..." },
-        { type: "exec", msg: "Scanning frame for human-centric features" },
-        { type: "data", msg: "Optimizing flow estimation tensors" }
+        { msg: "Bootstrapped custom CNN architecture for density mapping" },
+        { msg: "Scanned frames for human-centric features" },
+        { msg: "Optimized flow estimation algorithms for high accuracy" }
       ]
     },
     {
       title: "Spam Detection Engine",
       description: "Deployed an NLP classification suite using TF-IDF vectorization and Scikit-Learn libraries to isolate malicious SMS packages out of large test-sets.",
-      tags: ["[NLP]", "[ML]", "[AUTOMATION]", "[SCIKIT-LEARN]"],
+      tags: ["NLP", "Machine Learning", "Automation", "Scikit-Learn"],
       github: "#",
       demo: "#",
       logs: [
-        { type: "info", msg: "Starting word vectorization engine..." },
-        { type: "load", msg: "Importing stopwords database" },
-        { type: "exec", msg: "Training MultinomialNB classifier" }
+        { msg: "Started word vectorization engine with TF-IDF" },
+        { msg: "Implemented custom stopwords filtering database" },
+        { msg: "Trained reliable MultinomialNB classifier pipeline" }
       ]
     },
     {
       title: "Station AR Pathfinding",
       description: "A spatial route guidance application using AR overlays and mobile sensor data to seamlessly chart paths between static transit platforms.",
-      tags: ["[AR]", "[UNITY]", "[MOBILE]", "[C#]"],
+      tags: ["AR", "Unity", "Mobile Dev", "C#"],
       github: "#",
       demo: "#",
       logs: [
-        { type: "info", msg: "Calibrating ARCore spatial awareness..." },
-        { type: "load", msg: "Generating 3D mesh for station node" },
-        { type: "exec", msg: "Anchoring path nodes to real-world coordinates" }
+        { msg: "Calibrated ARCore spatial awareness functionality" },
+        { msg: "Generated dynamic 3D meshes for station nodes" },
+        { msg: "Anchored path nodes to real-world geometric coordinates" }
       ]
     },
     {
       title: "Matrix Recommender",
       description: "A collaborative filtering data structure predicting media rankings using embedded user telemetry interactions.",
-      tags: ["[DATA_SCIENCE]", "[PYTHON]", "[PANDAS]", "[NUMPY]"],
+      tags: ["Data Science", "Python", "Pandas", "NumPy"],
       github: "#",
       demo: "#",
       logs: [
-        { type: "info", msg: "Initializing recommendation matrix..." },
-        { type: "data", msg: "Processing user interaction telemetry" },
-        { type: "exec", msg: "Calculating cosine similarity vectors" }
+        { msg: "Initialized scalable recommendation matrix" },
+        { msg: "Processed millions of user interaction telemetry points" },
+        { msg: "Calculated multi-dimensional cosine similarity vectors" }
       ]
     },
     {
       title: "Ledger Native",
       description: "Desktop client application architected with Java standard libraries and MySQL to handle localized financial commits safely.",
-      tags: ["[JAVA]", "[MYSQL]", "[GUI]", "[JDBC]"],
+      tags: ["Java", "MySQL", "Desktop GUI", "JDBC"],
       github: "#",
       demo: "#",
       logs: [
-        { type: "info", msg: "Establishing MySQL connection..." },
-        { type: "auth", msg: "Authenticating localized financial vault" },
-        { type: "exec", msg: "Running relational commit engine" }
+        { msg: "Established secure MySQL database connectivity" },
+        { msg: "Implemented localized financial vault authentication" },
+        { msg: "Architected a reliable relational commit engine" }
       ]
     }
   ];
 
   return (
     <section id="projects" className="section-container">
-      <h2 className="section-title">./projects --all</h2>
+      <h2 className="section-title">Featured Projects</h2>
       
-      <div className="projects-grid">
+      <div className="projects-modern-grid">
         {projectData.map((project, index) => (
           <div 
             key={index} 
-            className="project-card glass-card hover-lift"
+            className="project-modern-card glass-card hover-lift"
             onClick={() => setActiveProject(project)}
           >
-            <div className="project-content">
-              <div className="project-header">
-                <h3 className="project-title"><FolderGit2 size={20} className="proj-icon"/> {project.title}</h3>
-                <div className="project-links" onClick={(e) => e.stopPropagation()}>
-                  <a href={project.github} target="_blank" rel="noreferrer" className="icon-link" aria-label="Source">
+            <div className="project-modern-content">
+              <div className="project-modern-header">
+                <div className="project-icon-wrapper">
+                  <FolderGit2 size={24} className="text-theme-blue" />
+                </div>
+                <div className="project-modern-links" onClick={(e) => e.stopPropagation()}>
+                  <a href={project.github} target="_blank" rel="noreferrer" className="icon-modern-link" aria-label="Source">
                     <Code2 size={20} />
                   </a>
-                  <a href={project.demo} target="_blank" rel="noreferrer" className="icon-link" aria-label="Demo">
+                  <a href={project.demo} target="_blank" rel="noreferrer" className="icon-modern-link" aria-label="Demo">
                     <ExternalLink size={20} />
                   </a>
                 </div>
               </div>
               
-              <div className="project-description text-primary">
-                <p>{project.description}</p>
-              </div>
+              <h3 className="project-modern-title">{project.title}</h3>
+              <p className="project-modern-desc">{project.description}</p>
               
-              <div className="project-footer-meta">
-                <div className="project-tags">
+              <div className="project-modern-footer">
+                <div className="project-modern-tags">
                   {project.tags.slice(0, 3).map((tag, tIndex) => (
-                    <span key={tIndex} className="tag">{tag}</span>
+                    <span key={tIndex} className="tech-badge">{tag}</span>
                   ))}
-                  {project.tags.length > 3 && <span className="tag">...</span>}
-                </div>
-                <div className="project-cta">
-                  <span>[READ_MORE]</span>
+                  {project.tags.length > 3 && <span className="tech-badge">+{project.tags.length - 3}</span>}
                 </div>
               </div>
             </div>
@@ -191,7 +171,7 @@ const Projects = () => {
         ))}
       </div>
 
-      <ProjectTerminalModal 
+      <ProjectModernModal 
         project={activeProject} 
         onClose={() => setActiveProject(null)} 
       />

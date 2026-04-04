@@ -1,0 +1,54 @@
+.social-sidebar-container {
+  width: 40px;
+  position: fixed;
+  bottom: 0;
+  right: 40px; /* Right side as requested */
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.social-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-sidebar-item {
+  margin-bottom: 20px;
+}
+
+.social-sidebar-item:last-of-type {
+  margin-bottom: 25px; /* Spacing before the line */
+}
+
+.social-sidebar-link {
+  padding: 10px;
+  display: inline-block;
+  color: var(--text-muted);
+  transition: all var(--transition-speed) ease;
+}
+
+.social-sidebar-link:hover,
+.social-sidebar-link:focus {
+  transform: translateY(-5px);
+  color: var(--theme-blue);
+}
+
+.social-sidebar-line {
+  width: 1px;
+  height: 90px;
+  background-color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .social-sidebar-container {
+    display: none; /* Usually hidden on mobile in favor of bottom or menu navigation */
+  }
+}
