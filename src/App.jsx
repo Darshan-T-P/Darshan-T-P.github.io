@@ -9,35 +9,54 @@ import Contact from './components/Contact';
 import CanvasNetwork from './components/CanvasNetwork';
 import FloatingTerminal from './components/FloatingTerminal';
 import SocialSidebar from './components/SocialSidebar';
+import Preloader from './components/Preloader';
 
 function App() {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isBooting, setIsBooting] = useState(true);
 
   // Default forcefully to dark theme per system design requirements
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', 'dark');
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (!isBooting) {
+      setTimeout(() => window.scrollTo(0, 0), 10);
+    }
+  }, [isBooting]);
 
   const toggleTerminal = () => {
     setIsTerminalOpen(!isTerminalOpen);
   };
 
   return (
-    <div className="app-container">
-      <Navbar toggleTerminal={toggleTerminal} isTerminalOpen={isTerminalOpen} />
+    <>
+      {isBooting && <Preloader onComplete={() => setIsBooting(false)} />}
       
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Achievements />
-        <Contact />
-      </main>
+      {!isBooting && (
+        <div className="app-container animate-fade-in">
+          <CanvasNetwork />
+          <Navbar toggleTerminal={toggleTerminal} isTerminalOpen={isTerminalOpen} />
+          
+          <main>
+            <Hero />
+            <About />
+            <Skills />
+            <Projects />
+            <Achievements />
+            <Contact />
+          </main>
 
-      <SocialSidebar />
-      <FloatingTerminal isOpen={isTerminalOpen} toggleTerminal={toggleTerminal} />
-    </div>
+          <SocialSidebar />
+          <FloatingTerminal isOpen={isTerminalOpen} toggleTerminal={toggleTerminal} />
+        </div>
+      )}
+    </>
   );
 }
 

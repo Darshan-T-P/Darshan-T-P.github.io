@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Bot, Command, Send } from 'lucide-react';
+import { X, Bot } from 'lucide-react';
 import './FloatingTerminal.css';
 
 const FloatingTerminal = ({ isOpen, toggleTerminal }) => {
   const [history, setHistory] = useState([
-    { type: 'sys', text: 'Assistant initialized. How can I help you navigate?' },
-    { type: 'sys', text: 'Type "help" to see available actions.' }
+    { type: 'sys', text: '[ ^_^ ] system ready.' },
+    { type: 'sys', text: 'Type "help" to display commands.' }
   ]);
   const [inputVal, setInputVal] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -13,6 +13,15 @@ const FloatingTerminal = ({ isOpen, toggleTerminal }) => {
   
   const endRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Compute reactive face
+  const getFace = () => {
+    if (isError) return '[ o_o ]';
+    if (isProcessing) return '[ -_- ]';
+    return '[ ^_^ ]';
+  };
+
+  const face = getFace();
 
   useEffect(() => {
     if (isOpen) {
@@ -24,7 +33,7 @@ const FloatingTerminal = ({ isOpen, toggleTerminal }) => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history, isOpen]);
 
-  const triggerError = () => {
+  const triggerErrorFace = () => {
     setIsError(true);
     setTimeout(() => {
       setIsError(false);
@@ -35,29 +44,29 @@ const FloatingTerminal = ({ isOpen, toggleTerminal }) => {
     if (isProcessing) return;
     
     const trimmed = cmd.trim().toLowerCase();
-    const newHistory = [...history, { type: 'user', text: cmd }];
+    const newHistory = [...history, { type: 'cmd', text: trimmed }];
 
     if (trimmed === '') return setHistory(newHistory);
 
     const commands = {
       'help': [
-        'Here are the actions I can perform:',
-        '• about    → Navigate to About section',
-        '• skills   → Navigate to Skills section',
-        '• projects → Navigate to Projects section',
-        '• contact  → Navigate to Contact section',
-        '• resume   → Open resume',
-        '• github   → Open GitHub profile',
-        '• clear    → Clear conversation'
+        'Available commands:',
+        '  about    → scroll to about section',
+        '  skills   → scroll to skills',
+        '  projects → scroll to projects',
+        '  contact  → scroll to contact',
+        '  resume   → open resume',
+        '  github   → open GitHub',
+        '  clear    → clear screen'
       ],
-      'whoami': ['Darshan T P - Developer, AI Builder, and DevOps Explorer.'],
+      'whoami': ['Darshan | Developer | System Builder'],
       'clear': null,
-      'about': ['Taking you to the About section...'],
-      'skills': ['Taking you to the Technical Expertise section...'],
-      'projects': ['Taking you to the Projects section...'],
-      'contact': ['Opening the Contact section...'],
-      'resume': ['Opening my latest resume...'],
-      'github': ['Opening GitHub...']
+      'about': ['navigating to ./about...'],
+      'skills': ['navigating to ./skills...'],
+      'projects': ['navigating to ./projects...'],
+      'contact': ['establishing secure connection...'],
+      'resume': ['fetching resume.pdf...'],
+      'github': ['resolving host github.com...']
     };
 
     if (trimmed === 'clear') {
@@ -68,13 +77,14 @@ const FloatingTerminal = ({ isOpen, toggleTerminal }) => {
     setIsProcessing(true);
 
     if (commands[trimmed]) {
+      newHistory.push({ type: 'sys', text: `> executing: ${trimmed}` });
       setHistory(newHistory);
       
       const responses = commands[trimmed];
       
       responses.forEach((line, idx) => {
         setTimeout(() => {
-          setHistory(prev => [...prev, { type: 'sys', text: line }]);
+          setHistory(prev => [...prev, { type: 'response', text: line }]);
         }, 400 + (idx * 300));
       });
 
@@ -97,11 +107,9 @@ const FloatingTerminal = ({ isOpen, toggleTerminal }) => {
       }, totalDelay + 300);
 
     } else {
-      triggerError();
-      setHistory(newHistory);
-      
+      triggerErrorFace();
       setTimeout(() => {
-        newHistory.push({ type: 'error', text: `I didn't understand "${trimmed}". Type "help" for a list of commands.` });
+        newHistory.push({ type: 'error', text: `command not found: ${trimmed}` });
         setHistory(newHistory);
         setIsProcessing(false);
         
@@ -122,42 +130,44 @@ const FloatingTerminal = ({ isOpen, toggleTerminal }) => {
   return (
     <>
       <div 
-        className={`floating-palette-btn ${isOpen ? 'active' : ''}`} 
+        className={`floating-term-btn ${isOpen ? 'active' : ''}`} 
         onClick={toggleTerminal}
       >
-        <Command size={24} className="palette-icon" />
+        <span className="term-symbol-face">{face}</span>
       </div>
 
-      <div className={`floating-palette-window glass-card ${isOpen ? 'open' : ''}`}>
-        <div className="palette-header">
-          <div className="palette-header-left">
-            <Bot size={20} className="text-theme-blue" />
-            <span className="palette-title">Site Assistant</span>
+      <div className={`floating-terminal-window glass-card ${isOpen ? 'open' : ''}`}>
+        <div className="term-header">
+          <div className="terminal-buttons">
+            <span className="dot red" onClick={toggleTerminal} style={{cursor: 'pointer'}}></span>
+            <span className="dot yellow"></span>
+            <span className="dot green"></span>
           </div>
-          <button className="palette-close" onClick={toggleTerminal}>
-            <X size={18} />
+          <div className="term-title">darshan@dev: ~/tools</div>
+          <button className="term-close" onClick={toggleTerminal}>
+            <X size={16} />
           </button>
         </div>
 
-        <div className="palette-body custom-scrollbar" onClick={() => inputRef.current?.focus()}>
+        <div className="term-body custom-scrollbar" onClick={() => inputRef.current?.focus()}>
           
-          <div className="palette-content">
+          <div className="term-content">
             {history.map((entry, idx) => (
-              <div key={idx} className={`chat-message ${entry.type}`}>
-                {entry.type === 'sys' && <div className="msg-avatar"><Bot size={14}/></div>}
-                <div className={`msg-bubble ${entry.type}`}>
-                  {entry.text}
-                </div>
+              <div key={idx} className={`hist-entry ${entry.type}`}>
+                {entry.type === 'cmd' && <span className="term-prompt-prefix">[USER@DARSHAN-OS]:~$</span>}
+                {entry.type === 'response' && <span className="term-response-prefix">[OUTPUT]:</span>}
+                {entry.type === 'error' && <span className="term-error-prefix">[ERROR]:</span>}
+                {entry.type === 'sys' && <span className="term-sys-prefix">[SYSTEM]:</span>}
+                <span className="entry-content">{entry.text}</span>
               </div>
             ))}
 
-            <div className={`palette-input-area ${isProcessing ? 'processing' : ''}`}>
-              <Command size={16} className={`input-icon ${isError ? 'error' : ''}`} />
+            <div className={`term-input-line ${isProcessing ? 'processing' : ''}`}>
+              <span className="term-prompt">darshan@system:~$</span>
               <input 
                 ref={inputRef}
                 type="text" 
-                className="palette-input" 
-                placeholder="Ask me to navigate or type 'help'"
+                className="term-input" 
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -165,16 +175,6 @@ const FloatingTerminal = ({ isOpen, toggleTerminal }) => {
                 spellCheck="false"
                 autoComplete="off"
               />
-              <button 
-                className="palette-send"
-                onClick={() => {
-                  executeCommand(inputVal);
-                  setInputVal('');
-                }}
-                disabled={isProcessing || !inputVal.trim()}
-              >
-                <Send size={16} />
-              </button>
             </div>
             <div ref={endRef} style={{height: 1}}></div>
           </div>

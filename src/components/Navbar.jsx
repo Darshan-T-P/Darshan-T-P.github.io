@@ -46,12 +46,12 @@ const Navbar = ({ toggleTerminal, isTerminalOpen }) => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home', id: 'home' },
-    { name: 'About', href: '#about', id: 'about' },
-    { name: 'Skills', href: '#skills', id: 'skills' },
-    { name: 'Projects', href: '#projects', id: 'projects' },
-    { name: 'Achievements', href: '#achievements', id: 'achievements' },
-    { name: 'Contact', href: '#contact', id: 'contact' },
+    { name: './home', href: '#home', id: 'home' },
+    { name: './about', href: '#about', id: 'about' },
+    { name: './skills', href: '#skills', id: 'skills' },
+    { name: './projects', href: '#projects', id: 'projects' },
+    { name: './achievements', href: '#achievements', id: 'achievements' },
+    { name: './contact', href: '#contact', id: 'contact' },
   ];
 
   const socialLinks = [
@@ -65,28 +65,8 @@ const Navbar = ({ toggleTerminal, isTerminalOpen }) => {
       <div className="navbar-container">
         
         <a href="#home" className="logo">
-          <div className="logo-icon-modern">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#paint0_linear)"/>
-              <path d="M2 17L12 22L22 17" stroke="url(#paint1_linear)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M2 12L12 17L22 12" stroke="url(#paint2_linear)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <defs>
-                <linearGradient id="paint0_linear" x1="12" y1="2" x2="12" y2="12" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#6366f1"/>
-                  <stop offset="1" stopColor="#8b5cf6"/>
-                </linearGradient>
-                <linearGradient id="paint1_linear" x1="2" y1="17" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#6366f1"/>
-                  <stop offset="1" stopColor="#8b5cf6"/>
-                </linearGradient>
-                <linearGradient id="paint2_linear" x1="2" y1="12" x2="22" y2="17" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#6366f1"/>
-                  <stop offset="1" stopColor="#8b5cf6"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <span className="logo-text-modern">darshan<span style={{color: 'var(--theme-blue-light)'}}>.dev</span></span>
+          <div className="logo-box">&gt;_</div>
+          <span className="logo-text">darshan.dev_</span>
         </a>
 
         {/* Desktop Menu */}
@@ -103,7 +83,7 @@ const Navbar = ({ toggleTerminal, isTerminalOpen }) => {
               </li>
             ))}
           </ul>
-          
+
           <div className="utility-buttons">
             <button className={`nav-icon-btn ${isTerminalOpen ? 'active-icon' : ''}`} onClick={toggleTerminal} aria-label="Open Terminal Assistant">
               <Terminal size={20} />

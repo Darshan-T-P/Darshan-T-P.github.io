@@ -19,29 +19,27 @@ const LinkedinIcon = ({ size = 20 }) => (
 
 const SocialSidebar = () => {
   const socialLinks = [
-    { icon: <GithubIcon size={20} />, href: 'https://github.com/', label: 'GitHub' },
-    { icon: <LinkedinIcon size={20} />, href: 'https://linkedin.com/', label: 'LinkedIn' },
-    { icon: <Mail size={20} />, href: 'mailto:hello@darshan.dev', label: 'Email' },
+    { icon: <GithubIcon size={20} />, href: 'https://github.com/', label: 'GitHub', brandClass: 'github-brand' },
+    { icon: <LinkedinIcon size={20} />, href: 'https://linkedin.com/', label: 'LinkedIn', brandClass: 'linkedin-brand' },
+    { icon: <Mail size={20} />, href: 'mailto:hello@darshan.dev', label: 'Email', brandClass: 'email-brand' },
   ];
 
   return (
-    <div className="social-sidebar-container">
-      <ul className="social-sidebar-list">
-        {socialLinks.map((social, idx) => (
-          <li key={idx} className="social-sidebar-item">
-            <a 
-              href={social.href} 
-              className="social-sidebar-link" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              aria-label={social.label}
-            >
-              {social.icon}
-            </a>
-          </li>
-        ))}
-      </ul>
-      <div className="social-sidebar-line"></div>
+    <div className="floating-socials-container">
+      {socialLinks.map((social, idx) => (
+        <a 
+          key={idx}
+          href={social.href} 
+          className={`floating-social-orb ${social.brandClass}`}
+          target="_blank" 
+          rel="noopener noreferrer" 
+          aria-label={social.label}
+        >
+          <div className="orb-ring-1"></div>
+          <div className="orb-ring-2"></div>
+          <span className="orb-icon">{social.icon}</span>
+        </a>
+      ))}
     </div>
   );
 };

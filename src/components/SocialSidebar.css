@@ -1,54 +1,148 @@
-.social-sidebar-container {
-  width: 40px;
+@keyframes socialsReveal {
+  0% { opacity: 0; right: 0; }
+  100% { opacity: 1; right: 40px; }
+}
+
+.floating-socials-container {
   position: fixed;
-  bottom: 0;
-  right: 40px; /* Right side as requested */
-  z-index: 100;
+  top: 25px; /* Aligned vertically with navbar */
+  right: 40px; /* Outside navbar on the right */
+  z-index: 1000;
   display: flex;
-  flex-direction: column;
+  gap: 25px;
   align-items: center;
+  animation: socialsReveal 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 1.8s backwards;
 }
 
-.social-sidebar-list {
+.floating-social-orb {
+  position: relative;
+  width: 45px;
+  height: 45px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.social-sidebar-item {
-  margin-bottom: 20px;
-}
-
-.social-sidebar-item:last-of-type {
-  margin-bottom: 25px; /* Spacing before the line */
-}
-
-.social-sidebar-link {
-  padding: 10px;
-  display: inline-block;
-  color: var(--text-muted);
-  transition: all var(--transition-speed) ease;
-}
-
-.social-sidebar-link:hover,
-.social-sidebar-link:focus {
-  transform: translateY(-5px);
+  justify-content: center;
+  border-radius: 50%;
   color: var(--theme-blue);
+  text-decoration: none;
+  background: rgba(10, 15, 20, 0.6);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.social-sidebar-line {
-  width: 1px;
-  height: 90px;
-  background-color: var(--text-muted);
-  opacity: 0.5;
+/* Spinning Rings mimicking the Hero/System core design */
+.orb-ring-1 {
+  position: absolute;
+  top: -3px; left: -3px; right: -3px; bottom: -3px;
+  border: 1.5px solid rgba(0, 229, 255, 0.3);
+  border-radius: 50%;
+  animation: spin-ring-orb 6s linear infinite;
+  pointer-events: none;
+  transition: border-color 0.4s ease;
 }
 
-/* Responsiveness */
-@media (max-width: 768px) {
-  .social-sidebar-container {
-    display: none; /* Usually hidden on mobile in favor of bottom or menu navigation */
+.orb-ring-2 {
+  position: absolute;
+  top: -6px; left: -6px; right: -6px; bottom: -6px;
+  border: 1px dashed rgba(0, 229, 255, 0.15);
+  border-radius: 50%;
+  animation: spin-ring-orb 10s linear infinite reverse;
+  pointer-events: none;
+  transition: border-color 0.4s ease;
+}
+
+.orb-icon {
+  z-index: 2;
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes spin-ring-orb {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Hover Effects with original Brand Colors */
+.floating-social-orb:hover {
+  transform: scale(1.15);
+  background: var(--bg-card);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.floating-social-orb.github-brand:hover .orb-icon {
+  color: #ffffff;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+}
+.floating-social-orb.github-brand:hover .orb-ring-1, 
+.floating-social-orb.github-brand:hover .orb-ring-2 {
+  border-color: #ffffff;
+}
+
+.floating-social-orb.linkedin-brand:hover .orb-icon {
+  color: #0077b5;
+  filter: drop-shadow(0 0 8px rgba(0, 119, 181, 0.6));
+}
+.floating-social-orb.linkedin-brand:hover .orb-ring-1, 
+.floating-social-orb.linkedin-brand:hover .orb-ring-2 {
+  border-color: #0077b5;
+}
+
+.floating-social-orb.email-brand:hover .orb-icon {
+  color: #ea4335;
+  filter: drop-shadow(0 0 8px rgba(234, 67, 53, 0.6));
+}
+.floating-social-orb.email-brand:hover .orb-ring-1, 
+.floating-social-orb.email-brand:hover .orb-ring-2 {
+  border-color: #ea4335;
+}
+
+@media (max-width: 1200px) {
+  .floating-socials-container {
+    right: 20px;
+  }
+}
+
+@keyframes socialsMobileReveal {
+  0% { opacity: 0; transform: translateX(50%) translateY(30px); }
+  100% { opacity: 1; transform: translateX(50%) translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .floating-socials-container {
+    top: auto; 
+    bottom: 25px; /* Float at the bottom like an iOS dock */
+    right: 50%;
+    transform: translateX(50%);
+    flex-direction: row;
+    gap: 15px;
+    background: rgba(10, 15, 20, 0.85);
+    padding: 8px 16px;
+    border-radius: 40px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.9), 0 0 15px rgba(0, 229, 255, 0.1);
+    animation: socialsMobileReveal 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 1.8s backwards;
+    z-index: 1000;
+  }
+  
+  /* Disable the spinning rings on mobile for a cleaner tiny dock */
+  .orb-ring-1, .orb-ring-2 {
+    display: none;
+  }
+
+  .floating-social-orb {
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 50%;
+  }
+
+  .floating-social-orb:hover {
+    background: rgba(0, 229, 255, 0.15);
+    transform: translateY(-3px);
   }
 }
